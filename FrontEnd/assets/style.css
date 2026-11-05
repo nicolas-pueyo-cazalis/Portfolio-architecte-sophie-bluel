@@ -315,6 +315,10 @@ li:hover {
     margin: 37px auto;
 }
 
+#error-message {
+    color: red;
+}
+
 /* Login page: keep the footer at the bottom of the screen */
 .login-page {
     min-height: 100vh;
