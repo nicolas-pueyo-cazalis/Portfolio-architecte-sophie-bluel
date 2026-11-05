@@ -206,9 +206,14 @@ li:hover {
 #introduction p {
     margin-bottom: 0.5em;
 }
+
+#portfolio {
+    margin-top: 139px;
+}
+
 #portfolio h2 {
     text-align: center;
-    margin-bottom: 1em;
+    margin-bottom: 0;
 }
 .gallery {
     width: 100%;
@@ -353,4 +358,49 @@ footer nav ul {
     display: flex;
     justify-content: flex-end;
     margin: 2em;
+}
+
+/* Hide an element (used in edit mode) */
+.hidden {
+    display: none;
+}
+
+/* Edit mode: the black banner at the top of the page */
+.edit-banner {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: 59px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+}
+.edit-banner.hidden {
+    display: none;
+}
+
+/* Edit mode: the title "Mes Projets" and the "modifier" button, side by side */
+.portfolio-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 31px;
+    margin-bottom: 30px;
+}
+.edit-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Work Sans";
+    font-size: 14px;
+    color: black;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.edit-button.hidden {
+    display: none;
 }

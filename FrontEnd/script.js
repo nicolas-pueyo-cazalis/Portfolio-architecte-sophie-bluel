@@ -98,3 +98,31 @@ for (let i = 0; i < categories.length; i++) {
         displayWorks(filteredWorks);
     });
 }
+
+// Check if the user is logged in (a token is saved in the localStorage)
+const token = localStorage.getItem("token");
+console.log("Token trouvé :", token);
+
+if (token !== null) {
+    // Edit mode: hide the filters
+    filters.classList.add("hidden");
+
+    // Edit mode: "login" becomes "logout"
+    const loginLink = document.querySelector("#login-link");
+    loginLink.innerText = "logout";
+
+    // Logout: remove the token and reload the page
+    loginLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        localStorage.removeItem("token");
+        window.location.reload();
+    });
+
+    // Edit mode: show the black banner
+    const editBanner = document.querySelector(".edit-banner");
+    editBanner.classList.remove("hidden");
+
+    // Edit mode: show the "modifier" button
+    const editButton = document.querySelector(".edit-button");
+    editButton.classList.remove("hidden");
+}
