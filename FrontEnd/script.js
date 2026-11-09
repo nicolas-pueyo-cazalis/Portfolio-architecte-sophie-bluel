@@ -1,6 +1,6 @@
 // Fetch the works from the API
 const response = await fetch("http://localhost:5678/api/works");
-const works = await response.json();
+let works = await response.json();
 
 // The HTML gallery, where the works will be added
 const projets = document.querySelector(".gallery");
@@ -99,6 +99,58 @@ for (let i = 0; i < categories.length; i++) {
     });
 }
 
+// The gallery of the modal, where the thumbnails will be added
+const modalGallery = document.querySelector(".modal-gallery");
+
+// Display a list of works in the modal, as thumbnails with a trash button
+function displayModalWorks(worksList) {
+    for (let i = 0; i < worksList.length; i++) {
+        const work = worksList[i];
+
+        // Create a thumbnail: the image and a delete button
+        const thumbnail = document.createElement("figure");
+        const picture = document.createElement("img");
+        picture.src = work.imageUrl;
+        picture.alt = work.title;
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+        // Put the image and the button into the thumbnail, then the thumbnail into the modal gallery
+        thumbnail.appendChild(picture);
+        thumbnail.appendChild(deleteButton);
+        modalGallery.appendChild(thumbnail);
+
+        // On click on the trash button: delete this work
+        deleteButton.addEventListener("click", async function () {
+            console.log("Travail à supprimer :", work.id, work.title);
+
+            // Ask the API to delete the work (the token proves that we are allowed to)
+            const response = await fetch(`http://localhost:5678/api/works/${work.id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log("Code de la réponse :", response.status);
+
+            if (response.ok) {
+                console.log("Supprimé !");
+
+                // Remove the deleted work from the list of works
+                works = works.filter(function (oneWork) {
+                    return oneWork.id !== work.id;
+                });
+
+                // Redraw the gallery of the page and the gallery of the modal
+                projets.innerHTML = "";
+                displayWorks(works);
+                modalGallery.innerHTML = "";
+                displayModalWorks(works);
+            } else {
+                console.log("Échec de la suppression");
+            }
+        });
+    }
+}
+
 // Check if the user is logged in (a token is saved in the localStorage)
 const token = localStorage.getItem("token");
 console.log("Token trouvé :", token);
@@ -128,6 +180,9 @@ if (token !== null) {
 
     // Open the modal on click on the "modifier" button
     const modal = document.querySelector(".modal");
+    // Display the works in the modal gallery
+    displayModalWorks(works);
+
     editButton.addEventListener("click", function () {
         console.log("Clic sur modifier");
         modal.classList.remove("hidden");

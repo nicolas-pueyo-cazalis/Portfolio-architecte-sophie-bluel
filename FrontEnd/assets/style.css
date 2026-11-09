@@ -491,3 +491,35 @@ footer nav ul {
     border-radius: 60px;
     cursor: pointer;
 }
+
+/* Modal: the thumbnails grid (5 per row) */
+.modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 76.86px);
+    column-gap: 9px;
+    row-gap: 29px;
+}
+.modal-gallery figure {
+    position: relative;
+}
+.modal-gallery img {
+    width: 76.86px;
+    height: 102.57px;
+    object-fit: cover;
+    display: block;
+}
+/* Modal: the black trash button, in the top right corner of each thumbnail */
+.modal-gallery button {
+    position: absolute;
+    top: 6px;
+    right: 5.2px;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    font-size: 9px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
