@@ -224,4 +224,102 @@ if (token !== null) {
         formView.classList.add("hidden");
         backButton.classList.add("hidden");
     });
+
+    // Fill the category list of the form with the categories of the API
+    const categoryInput = document.querySelector("#category-input");
+    for (let i = 0; i < categories.length; i++) {
+        const category = categories[i];
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.innerText = category.name;
+        categoryInput.appendChild(option);
+    }
+    // Show a preview of the chosen photo
+    const photoInput = document.querySelector("#photo-input");
+    const photoPreview = document.querySelector(".photo-preview");
+    photoInput.addEventListener("change", function () {
+        const file = photoInput.files[0];
+        console.log("Fichier choisi :", file);
+        if (file) {
+            photoPreview.src = URL.createObjectURL(file);
+            photoPreview.classList.remove("hidden");
+        }
+    });
+    // Enable the "Valider" button only when the form is complete
+    const addWorkForm = document.querySelector(".add-work-form");
+    const titleInput = document.querySelector("#title-input");
+    const validateButton = document.querySelector(".validate-button");
+
+    function updateValidateButton() {
+        const isComplete = photoInput.files.length > 0 && titleInput.value.trim() !== "" && categoryInput.value !== "";
+        console.log("Formulaire complet ?", isComplete);
+        validateButton.disabled = !isComplete;
+    }
+
+    // At the start the form is empty, so the button is grey
+    updateValidateButton();
+
+    // Check again at each change in the form
+    addWorkForm.addEventListener("input", updateValidateButton);
+
+    // On submit: check the photo, then send the new work to the API
+    const formError = document.querySelector(".form-error");
+    addWorkForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const file = photoInput.files[0];
+
+        // Check the type and the size of the photo
+        if (file.type !== "image/png" && file.type !== "image/jpeg") {
+            formError.innerText = "La photo doit être au format jpg ou png.";
+            return;
+        }
+        if (file.size > 4 * 1024 * 1024) {
+            formError.innerText = "La photo ne doit pas dépasser 4 Mo.";
+            return;
+        }
+        formError.innerText = "";
+
+        // Prepare the data in the format expected by the API (multipart/form-data)
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("title", titleInput.value.trim());
+        formData.append("category", categoryInput.value);
+
+        // Send the new work, with the token (no Content-Type: the browser sets it)
+        const response = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: formData,
+        });
+        console.log("Code de la réponse :", response.status);
+
+        if (response.ok) {
+            const newWork = await response.json();
+            console.log("Nouveau travail :", newWork);
+            // The API returns categoryId as a text: convert it to a number, like the other works
+            newWork.categoryId = Number(newWork.categoryId);
+
+            // Add the new work to the list of works
+            works.push(newWork);
+
+            // Redraw the gallery of the page and the gallery of the modal
+            projets.innerHTML = "";
+            displayWorks(works);
+            modalGallery.innerHTML = "";
+            displayModalWorks(works);
+
+            // Empty the form, hide the preview, and grey the button again
+            addWorkForm.reset();
+            photoPreview.classList.add("hidden");
+            updateValidateButton();
+
+            // Go back to the gallery view, and close the modal
+            galleryView.classList.remove("hidden");
+            formView.classList.add("hidden");
+            backButton.classList.add("hidden");
+            modal.classList.add("hidden");
+        } else {
+            formError.innerText = "Erreur lors de l'envoi. Veuillez réessayer.";
+        }
+    });
 }

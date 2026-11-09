@@ -209,6 +209,7 @@ li:hover {
 
 #portfolio {
     margin-top: 139px;
+    margin-bottom: 57px;
 }
 
 #portfolio h2 {
@@ -429,7 +430,6 @@ footer nav ul {
     background-color: white;
     border-radius: 10px;
     text-align: center;
-    min-height: 688px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -522,4 +522,119 @@ footer nav ul {
     border: none;
     border-radius: 2px;
     cursor: pointer;
+}
+
+/* Add work form: the form fills the view, so that the line and the button stay at the bottom */
+.add-work-form {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+/* Add work form: the blue-grey photo zone */
+.photo-zone {
+    position: relative;
+    height: 169px;
+    padding-top: 13px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e8f1f6;
+    border-radius: 3px;
+}
+.photo-zone .fa-image {
+    font-size: 76px;
+    color: #b9c5cc;
+}
+.photo-button {
+    margin-top: 6px;
+    width: 173px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #306685;
+    background-color: #cbd6dc;
+    border-radius: 50px;
+    cursor: pointer;
+}
+.photo-zone p {
+    margin-top: 7px;
+    font-size: 10px;
+    color: #444444;
+}
+/* Add work form: the preview covers the photo zone */
+.photo-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #e8f1f6;
+    border-radius: 3px;
+}
+.photo-preview.hidden {
+    display: none;
+}
+/* Add work form: labels and fields */
+.add-work-form label:not(.photo-button) {
+    margin: 30px 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #3d3d3d;
+}
+.add-work-form label[for="category-input"] {
+    margin-top: 21px;
+}
+.add-work-form input[type="text"],
+.add-work-form select {
+    height: 51px;
+    border: none;
+    background-color: white;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    padding: 0 16px;
+    font-family: "Work Sans";
+    font-size: 14px;
+}
+.form-error {
+    margin-top: 10px;
+    color: red;
+}
+.add-work-form .modal-line {
+    margin-bottom: 32px;
+}
+/* Add work form: the "Valider" button, grey while the form is incomplete */
+.validate-button {
+    align-self: center;
+    margin-bottom: 10px;
+    width: 237px;
+    height: 36px;
+    font-family: "Syne";
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    background-color: #1d6154;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+}
+.validate-button:disabled {
+    background-color: #a7a7a7;
+    cursor: not-allowed;
+}
+
+/* Modal: each view has its own height (688px and 670px in the mock-up, minus the 60px + 45px paddings) */
+.modal-gallery-view {
+    min-height: 583px;
+}
+.modal-form-view {
+    min-height: 565px;
+}
+.modal-form-view h3 {
+    margin-bottom: 36px;
 }

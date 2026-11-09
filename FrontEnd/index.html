@@ -7,7 +7,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans:wght@400;500&display=swap"
             rel="stylesheet"
         />
         <meta name="description" content="" />
@@ -101,9 +101,31 @@
                     <button class="modal-add-button">Ajouter une photo</button>
                 </div>
 
-                <!-- View 2: the form (completed at a later step) -->
+                <!-- View 2: the form to add a work -->
                 <div class="modal-form-view hidden">
                     <h3>Ajout photo</h3>
+                    <form class="add-work-form">
+                        <!-- The photo zone: the button to choose a file, and the preview -->
+                        <div class="photo-zone">
+                            <i class="fa-regular fa-image"></i>
+                            <label for="photo-input" class="photo-button">+ Ajouter photo</label>
+                            <input type="file" id="photo-input" name="image" accept="image/png, image/jpeg" hidden />
+                            <p>jpg, png : 4mo max</p>
+                            <img class="photo-preview hidden" alt="Aperçu de la photo choisie" />
+                        </div>
+
+                        <label for="title-input">Titre</label>
+                        <input type="text" id="title-input" name="title" />
+
+                        <label for="category-input">Catégorie</label>
+                        <select id="category-input" name="category">
+                            <option value=""></option>
+                        </select>
+
+                        <p class="form-error"></p>
+                        <hr class="modal-line" />
+                        <button type="submit" class="validate-button">Valider</button>
+                    </form>
                 </div>
             </div>
         </div>
