@@ -577,6 +577,7 @@ footer nav ul {
     object-fit: contain;
     background-color: #e8f1f6;
     border-radius: 3px;
+    cursor: pointer;
 }
 .photo-preview.hidden {
     display: none;

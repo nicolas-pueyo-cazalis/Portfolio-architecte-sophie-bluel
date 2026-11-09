@@ -5,6 +5,10 @@ const loginForm = document.querySelector("#login form");
 loginForm.addEventListener("submit", async function (event) {
     // Prevent the default form submission
     event.preventDefault();
+    // Clear the previous error message
+    const errorMessage = document.querySelector("#error-message");
+    errorMessage.innerText = "";
+
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
     console.log("Email saisi :", email);
@@ -26,7 +30,10 @@ loginForm.addEventListener("submit", async function (event) {
         window.location.href = "index.html";
     } else {
         // If the login fails: show an error message
-        const errorMessage = document.querySelector("#error-message");
         errorMessage.innerText = "Email ou mot de passe incorrect.";
     }
+});
+// Clear the error message as soon as the user types again
+loginForm.addEventListener("input", function () {
+    document.querySelector("#error-message").innerText = "";
 });

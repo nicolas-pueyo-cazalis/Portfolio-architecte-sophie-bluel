@@ -245,6 +245,12 @@ if (token !== null) {
             photoPreview.classList.remove("hidden");
         }
     });
+    // Change the photo on click on the preview
+    photoPreview.addEventListener("click", function () {
+        console.log("Clic sur l'aperçu");
+        photoInput.click();
+    });
+
     // Enable the "Valider" button only when the form is complete
     const addWorkForm = document.querySelector(".add-work-form");
     const titleInput = document.querySelector("#title-input");
@@ -267,6 +273,7 @@ if (token !== null) {
     addWorkForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const file = photoInput.files[0];
+        console.log("Type du fichier :", file.type);
 
         // Check the type and the size of the photo
         if (file.type !== "image/png" && file.type !== "image/jpeg") {
