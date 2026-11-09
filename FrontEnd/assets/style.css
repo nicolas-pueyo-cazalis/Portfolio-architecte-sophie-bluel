@@ -133,12 +133,19 @@ body {
     margin: auto;
     font-family: "Work Sans";
     font-size: 14px;
+    background-color: #fffef8;
 }
 header {
     display: flex;
     justify-content: space-between;
     margin: 50px 0;
 }
+
+/* The menu is 11px below the top of the header, like in the mock-up */
+header nav {
+    margin-top: 11px;
+}
+
 section {
     margin: 50px 0;
 }
@@ -155,7 +162,9 @@ h1 {
 h1 > span {
     font-family: "Work Sans";
     font-size: 10px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #93532f;
 }
 
 h2 {
@@ -173,38 +182,52 @@ nav a {
 nav ul {
     display: flex;
     align-items: center;
+    gap: 44px;
     list-style-type: none;
 }
+
 nav li {
-    padding: 0 10px;
-    font-size: 1.2em;
+    font-size: 16px;
+}
+nav img {
+    display: block;
+    width: 22px;
+    height: 22px;
 }
 
 li:hover {
     color: #b1663c;
 }
+/* Introduction: the photo on the left, the text on the right, aligned at the top */
 #introduction {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    margin-top: 148px;
 }
 #introduction figure {
-    flex: 1;
+    width: 50%;
 }
+/* The photo is pushed against the right edge of its half */
 #introduction img {
     display: block;
-    margin: auto;
-    width: 80%;
+    width: 474px;
+    height: 355px;
+    object-fit: cover;
+    margin-left: auto;
 }
-
+/* The text starts 72px right of the photo and 54px below its top */
 #introduction article {
     flex: 1;
+    max-width: 404px;
+    padding-left: 72px;
+    padding-top: 54px;
+    color: #3d3d3d;
 }
 #introduction h2 {
-    margin-bottom: 1em;
+    margin-bottom: 25px;
 }
-
 #introduction p {
-    margin-bottom: 0.5em;
+    margin-bottom: 14px;
 }
 
 #portfolio {
@@ -216,16 +239,27 @@ li:hover {
     text-align: center;
     margin-bottom: 0;
 }
+/* Gallery: 3 columns of 305px, centered (951px wide, like in the mock-up) */
 .gallery {
-    width: 100%;
+    width: 951px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
+    grid-template-columns: repeat(3, 305px);
+    column-gap: 18px;
+    row-gap: 16px;
 }
-
+/* All the photos have the same size, cropped if needed */
 .gallery img {
-    width: 100%;
+    display: block;
+    width: 305px;
+    height: 407px;
+    object-fit: cover;
+}
+.gallery figcaption {
+    margin-top: 7px;
+    font-size: 13px;
+    color: #3d3d3d;
+    line-height: 15px;
 }
 
 /* Filters: the buttons above the gallery */
@@ -245,7 +279,10 @@ li:hover {
     background-color: white;
     border: 1px solid #1d6154;
     border-radius: 60px;
-    padding: 9px 20px;
+    padding: 10px;
+    min-width: 100px;
+    box-sizing: border-box;
+    line-height: 1;
     cursor: pointer;
 }
 
@@ -255,36 +292,49 @@ li:hover {
     color: white;
     background-color: #1d6154;
 }
-
+/* Contact: a centered column of 379px, like in the mock-up */
 #contact {
-    width: 50%;
-    margin: auto;
+    width: 379px;
+    margin: 0 auto 45px;
 }
 #contact > * {
     text-align: center;
 }
 #contact h2 {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+#contact p {
+    font-size: 16px;
+    color: #3d3d3d;
 }
 #contact form {
     text-align: left;
-    margin-top: 30px;
+    margin-top: 42px;
     display: flex;
     flex-direction: column;
 }
-
-#contact input {
-    height: 50px;
+#contact label {
+    margin-bottom: 9px;
+    font-weight: 500;
+    color: #3d3d3d;
+}
+/* The fields: white with a light shadow, 40px above the next label */
+#contact input,
+#contact textarea {
+    box-sizing: border-box;
+    height: 51px;
+    margin-bottom: 40px;
     font-size: 1.2em;
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
-    margin: 2em 0 1em 0;
-}
 #contact textarea {
-    border: none;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    height: 174px;
+}
+#contact input[type="submit"] {
+    width: 179px;
+    height: 36px;
+    margin: 0 auto;
 }
 
 /* Login page */
@@ -355,10 +405,21 @@ input[type="submit"] {
     border-radius: 60px;
 }
 
+/* Footer: a white band across the whole screen, 60px high */
+footer {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: 60px;
+    background-color: white;
+}
 footer nav ul {
     display: flex;
     justify-content: flex-end;
-    margin: 2em;
+    padding: 24px 107px 0 0;
+}
+footer li {
+    font-size: 14px;
+    font-weight: 300;
 }
 
 /* Hide an element (used in edit mode) */
@@ -389,7 +450,7 @@ footer nav ul {
     justify-content: center;
     align-items: center;
     gap: 31px;
-    margin-bottom: 30px;
+    margin-bottom: 57px;
 }
 .edit-button {
     display: flex;
