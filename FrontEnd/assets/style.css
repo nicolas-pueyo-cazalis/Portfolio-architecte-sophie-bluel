@@ -404,3 +404,90 @@ footer nav ul {
 .edit-button.hidden {
     display: none;
 }
+
+/* Modal: the grey background, covering the whole screen */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    overflow-y: auto;
+}
+.modal.hidden {
+    display: none;
+}
+/* Modal: the white window */
+.modal-content {
+    position: relative;
+    width: 630px;
+    padding: 60px 105px 45px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    min-height: 688px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.modal-close,
+.modal-back {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+    top: 26px;
+    font-size: 24px;
+}
+.modal-close {
+    right: 30px;
+}
+.modal-back {
+    left: 30px;
+}
+.modal-back.hidden,
+.modal-gallery-view.hidden,
+.modal-form-view.hidden {
+    display: none;
+}
+.modal-content h3 {
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 46px;
+}
+
+/* Modal: each view fills the window, so that the line and the button stay at the bottom */
+.modal-gallery-view,
+.modal-form-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.modal-gallery {
+    width: 100%;
+}
+/* Modal: the grey line above the button */
+.modal-line {
+    width: 420px;
+    margin: auto 0 38px;
+    border: none;
+    border-top: 1px solid #b3b3b3;
+}
+/* Modal: the green "Ajouter une photo" button */
+.modal-add-button {
+    width: 237px;
+    height: 36px;
+    font-family: "Syne";
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    background-color: #1d6154;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+}

@@ -80,8 +80,8 @@ for (let i = 0; i < categories.length; i++) {
     // On click on a category button: read its ticket
     button.addEventListener("click", function () {
         console.log("Category button clicked:", category.name);
-        const categoryId = category.id;
-        console.log("Ticket lu :", categoryId);
+        const clickedCategoryId = category.id;
+        console.log("Ticket lu :", clickedCategoryId);
 
         // Move the "active" class to the clicked button
         clearActiveButton();
@@ -89,7 +89,7 @@ for (let i = 0; i < categories.length; i++) {
 
         // Keep only the works of this category
         const filteredWorks = works.filter(function (work) {
-            return work.categoryId === categoryId;
+            return work.categoryId === clickedCategoryId;
         });
         console.log("Travaux filtrés:", filteredWorks);
         // Clear the gallery
@@ -125,4 +125,48 @@ if (token !== null) {
     // Edit mode: show the "modifier" button
     const editButton = document.querySelector(".edit-button");
     editButton.classList.remove("hidden");
+
+    // Open the modal on click on the "modifier" button
+    const modal = document.querySelector(".modal");
+    editButton.addEventListener("click", function () {
+        console.log("Clic sur modifier");
+        modal.classList.remove("hidden");
+    });
+
+    // Close the modal on click on the cross
+    const closeButton = document.querySelector(".modal-close");
+    closeButton.addEventListener("click", function () {
+        console.log("Clic sur la croix");
+        modal.classList.add("hidden");
+    });
+
+    // Close the modal on click outside the window (on the grey background)
+    modal.addEventListener("click", function (event) {
+        console.log("Clic sur :", event.target);
+        if (event.target === modal) {
+            modal.classList.add("hidden");
+        }
+    });
+
+    // The two views of the modal, and the back arrow
+    const galleryView = document.querySelector(".modal-gallery-view");
+    const formView = document.querySelector(".modal-form-view");
+    const backButton = document.querySelector(".modal-back");
+
+    // Go to the form view on click on "Ajouter une photo"
+    const addPhotoButton = document.querySelector(".modal-add-button");
+    addPhotoButton.addEventListener("click", function () {
+        console.log("Clic sur Ajouter une photo");
+        galleryView.classList.add("hidden");
+        formView.classList.remove("hidden");
+        backButton.classList.remove("hidden");
+    });
+
+    // Go back to the gallery view on click on the arrow
+    backButton.addEventListener("click", function () {
+        console.log("Clic sur la flèche");
+        galleryView.classList.remove("hidden");
+        formView.classList.add("hidden");
+        backButton.classList.add("hidden");
+    });
 }

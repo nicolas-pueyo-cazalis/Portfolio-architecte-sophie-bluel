@@ -29,9 +29,4 @@ loginForm.addEventListener("submit", async function (event) {
         const errorMessage = document.querySelector("#error-message");
         errorMessage.innerText = "Email ou mot de passe incorrect.";
     }
-
-    const token = localStorage.getItem("token");
-    if (token !== null) {
-        // connected: show the edit mode
-    }
 });
