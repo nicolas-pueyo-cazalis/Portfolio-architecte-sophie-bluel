@@ -228,7 +228,12 @@ if (token !== null) {
     }
     // Show a preview of the chosen photo
     const photoInput = document.querySelector("#photo-input");
-    const photoPreview = document.querySelector(".photo-preview");
+    // The preview image is created in JS, because an <img> must not exist without a src
+    const photoPreview = document.createElement("img");
+    photoPreview.classList.add("photo-preview", "hidden");
+    photoPreview.alt = "Aperçu de la photo choisie";
+    document.querySelector(".photo-zone").appendChild(photoPreview);
+
     photoInput.addEventListener("change", function () {
         const file = photoInput.files[0];
         if (file) {

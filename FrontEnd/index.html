@@ -70,9 +70,9 @@
                 <p>Vous avez un projet ? Discutons-en !</p>
                 <form action="#" method="post">
                     <label for="name">Nom</label>
-                    <input type="text" name="name" id="name" />
+                    <input type="text" name="name" id="name" autocomplete="name" />
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" />
+                    <input type="email" name="email" id="email" autocomplete="email" />
                     <label for="message">Message</label>
                     <textarea name="message" id="message" cols="30" rows="10"></textarea>
                     <input type="submit" value="Envoyer" />
@@ -111,7 +111,6 @@
                             <label for="photo-input" class="photo-button">+ Ajouter photo</label>
                             <input type="file" id="photo-input" name="image" accept="image/png, image/jpeg" hidden />
                             <p>jpg, png : 4mo max</p>
-                            <img class="photo-preview hidden" alt="Aperçu de la photo choisie" />
                         </div>
 
                         <label for="title-input">Titre</label>
@@ -119,7 +118,7 @@
 
                         <label for="category-input">Catégorie</label>
                         <select id="category-input" name="category">
-                            <option value=""></option>
+                            <option value="" label=" "></option>
                         </select>
 
                         <p class="form-error"></p>
