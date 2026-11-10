@@ -261,6 +261,10 @@ li:hover {
     color: #3d3d3d;
     line-height: 15px;
 }
+/* Edit mode: the filters are hidden, so the gallery needs more space above it */
+.filters.hidden + .gallery {
+    margin-top: 98px;
+}
 
 /* Filters: the buttons above the gallery */
 .filters {
@@ -340,7 +344,7 @@ li:hover {
 /* Login page */
 #login {
     width: 379px;
-    margin: 100px auto 0 auto;
+    margin: 107px auto 0 auto;
     text-align: center;
 }
 
@@ -435,10 +439,13 @@ footer li {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
     background-color: black;
     color: white;
     font-size: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
 }
 .edit-banner.hidden {
     display: none;

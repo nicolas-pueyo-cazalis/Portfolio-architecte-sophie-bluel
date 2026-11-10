@@ -32,9 +32,9 @@
                 <h2>Log In</h2>
                 <form action="#" method="post">
                     <label for="email">E-mail</label>
-                    <input type="email" name="email" id="email" />
+                    <input type="email" name="email" id="email" autocomplete="email" required />
                     <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password" />
+                    <input type="password" name="password" id="password" autocomplete="current-password" required />
                     <div id="error-message"></div>
                     <input type="submit" value="Se connecter" />
                 </form>
@@ -44,7 +44,7 @@
         <footer>
             <nav>
                 <ul>
-                    <li>Mentions Légales</li>
+                    <li>Mentions légales</li>
                 </ul>
             </nav>
         </footer>

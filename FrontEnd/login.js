@@ -1,5 +1,3 @@
-console.log("login.js est bien chargé");
-
 // Listen to the login form submission
 const loginForm = document.querySelector("#login form");
 loginForm.addEventListener("submit", async function (event) {
@@ -11,7 +9,6 @@ loginForm.addEventListener("submit", async function (event) {
 
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
-    console.log("Email saisi :", email);
 
     // Send the email and the password to the API
     const user = { email: email, password: password };
@@ -20,9 +17,7 @@ loginForm.addEventListener("submit", async function (event) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
     });
-    console.log("Code de la réponse :", response.status);
     const result = await response.json();
-    console.log("Réponse de l'API :", result);
 
     // If the login is successful: save the token and go to the home page
     if (response.status === 200) {
@@ -33,6 +28,7 @@ loginForm.addEventListener("submit", async function (event) {
         errorMessage.innerText = "Email ou mot de passe incorrect.";
     }
 });
+
 // Clear the error message as soon as the user types again
 loginForm.addEventListener("input", function () {
     document.querySelector("#error-message").innerText = "";

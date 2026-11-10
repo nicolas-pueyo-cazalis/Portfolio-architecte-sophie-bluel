@@ -3,15 +3,13 @@ const response = await fetch("http://localhost:5678/api/works");
 let works = await response.json();
 
 // The HTML gallery, where the works will be added
-const projets = document.querySelector(".gallery");
+const gallery = document.querySelector(".gallery");
 
 // Display a list of works in the gallery
 function displayWorks(worksList) {
-    console.log("displayWorks reçoit :", worksList);
     // For each work: one figure in the gallery
     for (let i = 0; i < worksList.length; i++) {
         const work = worksList[i];
-        console.log("Tour", i, work);
         // Create a figure: the image and its title
         const card = document.createElement("figure");
         const picture = document.createElement("img");
@@ -23,7 +21,7 @@ function displayWorks(worksList) {
         // Put the image and the title into the figure, then the figure into the gallery
         card.appendChild(picture);
         card.appendChild(caption);
-        projets.appendChild(card);
+        gallery.appendChild(card);
     }
 }
 // On page load: display all the works
@@ -39,7 +37,6 @@ const filters = document.querySelector(".filters");
 // Remove the "active" class from all the filter buttons
 function clearActiveButton() {
     const filterButtons = document.querySelectorAll(".filters button");
-    console.log("Boutons trouvés :", filterButtons);
     for (let i = 0; i < filterButtons.length; i++) {
         filterButtons[i].classList.remove("active");
     }
@@ -55,13 +52,11 @@ filters.appendChild(allButton);
 
 // On click on "Tous": display all the works
 allButton.addEventListener("click", function () {
-    console.log("Tous button clicked");
-
     // Move the "active" class to the clicked button
     clearActiveButton();
     allButton.classList.add("active");
     // Clear the gallery
-    projets.innerHTML = "";
+    gallery.innerHTML = "";
     // Display all the works
     displayWorks(works);
 });
@@ -79,9 +74,7 @@ for (let i = 0; i < categories.length; i++) {
 
     // On click on a category button: read its ticket
     button.addEventListener("click", function () {
-        console.log("Category button clicked:", category.name);
         const clickedCategoryId = category.id;
-        console.log("Ticket lu :", clickedCategoryId);
 
         // Move the "active" class to the clicked button
         clearActiveButton();
@@ -91,9 +84,8 @@ for (let i = 0; i < categories.length; i++) {
         const filteredWorks = works.filter(function (work) {
             return work.categoryId === clickedCategoryId;
         });
-        console.log("Travaux filtrés:", filteredWorks);
         // Clear the gallery
-        projets.innerHTML = "";
+        gallery.innerHTML = "";
         // Display the filtered works
         displayWorks(filteredWorks);
     });
@@ -122,38 +114,43 @@ function displayModalWorks(worksList) {
 
         // On click on the trash button: delete this work
         deleteButton.addEventListener("click", async function () {
-            console.log("Travail à supprimer :", work.id, work.title);
-
             // Ask the API to delete the work (the token proves that we are allowed to)
             const response = await fetch(`http://localhost:5678/api/works/${work.id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` },
             });
-            console.log("Code de la réponse :", response.status);
 
+            // The token has expired: the user must log in again
+            if (response.status === 401) {
+                handleExpiredToken();
+                return;
+            }
+
+            // Remove the deleted work from the list of works
             if (response.ok) {
-                console.log("Supprimé !");
-
-                // Remove the deleted work from the list of works
                 works = works.filter(function (oneWork) {
                     return oneWork.id !== work.id;
                 });
 
                 // Redraw the gallery of the page and the gallery of the modal
-                projets.innerHTML = "";
+                gallery.innerHTML = "";
                 displayWorks(works);
                 modalGallery.innerHTML = "";
                 displayModalWorks(works);
-            } else {
-                console.log("Échec de la suppression");
             }
         });
     }
 }
 
+// When the token has expired: remove it and go back to the login page
+function handleExpiredToken() {
+    alert("Votre session a expiré. Veuillez vous reconnecter.");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+}
+
 // Check if the user is logged in (a token is saved in the localStorage)
 const token = localStorage.getItem("token");
-console.log("Token trouvé :", token);
 
 if (token !== null) {
     // Edit mode: hide the filters
@@ -184,20 +181,17 @@ if (token !== null) {
     displayModalWorks(works);
 
     editButton.addEventListener("click", function () {
-        console.log("Clic sur modifier");
         modal.classList.remove("hidden");
     });
 
     // Close the modal on click on the cross
     const closeButton = document.querySelector(".modal-close");
     closeButton.addEventListener("click", function () {
-        console.log("Clic sur la croix");
         modal.classList.add("hidden");
     });
 
     // Close the modal on click outside the window (on the grey background)
     modal.addEventListener("click", function (event) {
-        console.log("Clic sur :", event.target);
         if (event.target === modal) {
             modal.classList.add("hidden");
         }
@@ -211,7 +205,6 @@ if (token !== null) {
     // Go to the form view on click on "Ajouter une photo"
     const addPhotoButton = document.querySelector(".modal-add-button");
     addPhotoButton.addEventListener("click", function () {
-        console.log("Clic sur Ajouter une photo");
         galleryView.classList.add("hidden");
         formView.classList.remove("hidden");
         backButton.classList.remove("hidden");
@@ -219,7 +212,6 @@ if (token !== null) {
 
     // Go back to the gallery view on click on the arrow
     backButton.addEventListener("click", function () {
-        console.log("Clic sur la flèche");
         galleryView.classList.remove("hidden");
         formView.classList.add("hidden");
         backButton.classList.add("hidden");
@@ -239,7 +231,6 @@ if (token !== null) {
     const photoPreview = document.querySelector(".photo-preview");
     photoInput.addEventListener("change", function () {
         const file = photoInput.files[0];
-        console.log("Fichier choisi :", file);
         if (file) {
             photoPreview.src = URL.createObjectURL(file);
             photoPreview.classList.remove("hidden");
@@ -247,7 +238,6 @@ if (token !== null) {
     });
     // Change the photo on click on the preview
     photoPreview.addEventListener("click", function () {
-        console.log("Clic sur l'aperçu");
         photoInput.click();
     });
 
@@ -255,11 +245,13 @@ if (token !== null) {
     const addWorkForm = document.querySelector(".add-work-form");
     const titleInput = document.querySelector("#title-input");
     const validateButton = document.querySelector(".validate-button");
+    const formError = document.querySelector(".form-error");
 
     function updateValidateButton() {
         const isComplete = photoInput.files.length > 0 && titleInput.value.trim() !== "" && categoryInput.value !== "";
-        console.log("Formulaire complet ?", isComplete);
         validateButton.disabled = !isComplete;
+        // Clear the error message as soon as the user changes the form
+        formError.innerText = "";
     }
 
     // At the start the form is empty, so the button is grey
@@ -269,11 +261,9 @@ if (token !== null) {
     addWorkForm.addEventListener("input", updateValidateButton);
 
     // On submit: check the photo, then send the new work to the API
-    const formError = document.querySelector(".form-error");
     addWorkForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const file = photoInput.files[0];
-        console.log("Type du fichier :", file.type);
 
         // Check the type and the size of the photo
         if (file.type !== "image/png" && file.type !== "image/jpeg") {
@@ -298,11 +288,15 @@ if (token !== null) {
             headers: { Authorization: `Bearer ${token}` },
             body: formData,
         });
-        console.log("Code de la réponse :", response.status);
+
+        // The token has expired: the user must log in again
+        if (response.status === 401) {
+            handleExpiredToken();
+            return;
+        }
 
         if (response.ok) {
             const newWork = await response.json();
-            console.log("Nouveau travail :", newWork);
             // The API returns categoryId as a text: convert it to a number, like the other works
             newWork.categoryId = Number(newWork.categoryId);
 
@@ -310,7 +304,7 @@ if (token !== null) {
             works.push(newWork);
 
             // Redraw the gallery of the page and the gallery of the modal
-            projets.innerHTML = "";
+            gallery.innerHTML = "";
             displayWorks(works);
             modalGallery.innerHTML = "";
             displayModalWorks(works);
